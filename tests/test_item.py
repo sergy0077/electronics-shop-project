@@ -1,6 +1,6 @@
-"""Здесь надо написать тесты с использованием pytest для модуля item."""
 from src.item import Item
 import pytest
+
 
 def test_calculate_total_price():
     item1 = Item("Смартфон", 10000, 20)
@@ -8,6 +8,7 @@ def test_calculate_total_price():
 
     assert item1.calculate_total_price() == 200000
     assert item2.calculate_total_price() == 100000
+
 
 def test_apply_discount():
     item1 = Item("Смартфон", 10000, 20)
@@ -19,6 +20,7 @@ def test_apply_discount():
     assert item1.price == 8000.0
     assert item2.price == 20000
     assert item1.price == 10000 * Item.pay_rate
+
 
 def test_all_items(monkeypatch):
     # Создаем объекты Item
@@ -35,6 +37,7 @@ def test_all_items(monkeypatch):
     assert Item.all[0] == item1
     assert Item.all[1] == item2
 
+
 def test_name_getter_and_setter():
     item = Item('Телефон', 10000, 5)
 
@@ -50,7 +53,14 @@ def test_name_getter_and_setter():
     else:
         assert True, 'Ожидалось возникновение исключения'
 
-test_name_getter_and_setter()
+    def test_repr():
+        item_r = Item("Смартфон", 10000, 20)
+        assert repr(item_r) == "Item('Смартфон', 10000, 20)"
+
+    def test_str():
+        item_s = Item("Смартфон", 10000, 20)
+        assert str(item_s) == "Смартфон"
+
 
 if __name__ == "__main__":
     pytest.main()

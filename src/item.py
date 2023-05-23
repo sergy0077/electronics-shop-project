@@ -52,7 +52,12 @@ class Item:
         """
         Возвращает строковое представление экземпляра класса Item.
         """
-        return f"Item(name='{self.__name}', price={self.price}, quantity={self.quantity})"
+        return f"Item('{self.__name}', {self.price}, {self.quantity})"
+    def __str__(self) -> str:
+        """
+        Возвращает строковое представление экземпляра класса Item.
+        """
+        return str(self.__name)
 
     def calculate_total_price(self) -> float:
         """

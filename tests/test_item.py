@@ -38,20 +38,39 @@ def test_all_items(monkeypatch):
     assert Item.all[1] == item2
 
 
-def test_name_getter_and_setter():
-    item = Item('Телефон', 10000, 5)
+#def test_name_getter_and_setter():
+    #item = Item('Телефон', 10000, 5)
 
     # длина наименования товара меньше 10 символов
-    item.name = 'Смартфон'
-    assert item.name == 'Смартфон'
+    #item.name = 'Смартфон'
+    #assert item.name == 'Смартфон'
 
     # длина наименования товара больше 10 символов
-    try:
-        item.name = 'СуперСмартфон'
-    except Exception as e:
-        assert str(e) == 'Длина наименования товара превышает 10 символов.'
-    else:
-        assert True, 'Ожидалось возникновение исключения'
+    #try:
+        #item.name = 'СуперСмартфон'
+    #except Exception as e:
+        #assert str(e) == 'Длина наименования товара превышает 10 символов.'
+    #else:
+        #assert True, 'Ожидалось возникновение исключения'
+
+
+    def test_item_name_getter():
+        item = Item("Smartphone", 1000.0, 5)
+        assert item.name == "Smartphone"
+
+    def test_item_name_setter_valid_length():
+        item = Item("Smartphone", 1000.0, 5)
+        item.name = "Phone"
+        assert item.name == "Phone"
+
+    def test_item_name_setter_invalid_length():
+        item = Item("Smartphone", 1000.0, 5)
+        try:
+            item.name = "VeryLongProductName"
+        except ValueError as e:
+            assert str(e) == "Длина наименования товара не должна превышать 10 символов."
+        else:
+            assert False
 
     def test_repr():
         item_r = Item("Смартфон", 10000, 20)

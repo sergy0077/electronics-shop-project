@@ -5,10 +5,6 @@ class Item:
     Класс для представления товара в магазине.
     """
 
-    @property
-    def name(self):
-        return self.__name
-
     pay_rate = 1.0
     all = []
 
@@ -31,7 +27,7 @@ class Item:
         self.quantity = quantity
 
     @property
-    def get_name(self) -> str:
+    def name(self) -> str:
         """
         Геттер для получения названия товара.
         """
@@ -46,7 +42,7 @@ class Item:
         if len(value) <= 10:
             self.__name = value
         else:
-            self.__name = value[:10]
+            raise ValueError("Длина наименования товара не должна превышать 10 символов.")
 
     def __repr__(self) -> str:
         """

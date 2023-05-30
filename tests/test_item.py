@@ -38,47 +38,64 @@ def test_all_items(monkeypatch):
     assert Item.all[1] == item2
 
 
-#def test_name_getter_and_setter():
-    #item = Item('Телефон', 10000, 5)
-
-    # длина наименования товара меньше 10 символов
-    #item.name = 'Смартфон'
-    #assert item.name == 'Смартфон'
-
-    # длина наименования товара больше 10 символов
-    #try:
-        #item.name = 'СуперСмартфон'
-    #except Exception as e:
-        #assert str(e) == 'Длина наименования товара превышает 10 символов.'
-    #else:
-        #assert True, 'Ожидалось возникновение исключения'
+def test_item_name_getter():
+    item = Item("Smartphone", 1000.0, 5)
+    assert item.name == "Smartphone"
 
 
-    def test_item_name_getter():
-        item = Item("Smartphone", 1000.0, 5)
-        assert item.name == "Smartphone"
+def test_item_name_setter_valid_length():
+    item = Item("Smartphone", 1000.0, 5)
+    item.name = "Phone"
+    assert item.name == "Phone"
 
-    def test_item_name_setter_valid_length():
-        item = Item("Smartphone", 1000.0, 5)
-        item.name = "Phone"
-        assert item.name == "Phone"
 
-    def test_item_name_setter_invalid_length():
-        item = Item("Smartphone", 1000.0, 5)
-        try:
-            item.name = "VeryLongProductName"
-        except ValueError as e:
-            assert str(e) == "Длина наименования товара не должна превышать 10 символов."
-        else:
-            assert False
+def test_item_name_setter_invalid_length():
+    item = Item("Smartphone", 1000.0, 5)
+    with pytest.raises(ValueError) as e:
+        item.name = "VeryLongProductName"
+    assert str(e.value) == "Длина наименования товара не должна превышать 10 символов."
 
-    def test_repr():
-        item_r = Item("Смартфон", 10000, 20)
-        assert repr(item_r) == "Item('Смартфон', 10000, 20)"
 
-    def test_str():
-        item_s = Item("Смартфон", 10000, 20)
-        assert str(item_s) == "Смартфон"
+def test_repr():
+    item_r = Item("Смартфон", 10000, 20)
+    assert repr(item_r) == "Item('Смартфон', 10000, 20)"
+
+
+def test_str():
+    item_s = Item("Смартфон", 10000, 20)
+    assert str(item_s) == "Смартфон"
+
+
+def test_class_attributes():
+    Item.pay_rate = 1.0
+    item = Item("Smartphone", 1000.0, 5)
+    assert item.pay_rate == 1.0
+    assert Item.pay_rate == 1.0
+
+    Item.pay_rate = 0.9
+    assert item.pay_rate == 0.9
+    assert Item.pay_rate == 0.9
+
+
+def test_clear_all():
+    item1 = Item("Смартфон", 10000, 20)
+    item2 = Item("Ноутбук", 20000, 5)
+
+    Item.clear_all()
+
+    assert len(Item.all) == 0
+
+
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv()
+
+    assert len(Item.all) > 0
+
+
+def test_string_to_number():
+    string_num = "10.5"
+
+    assert Item.string_to_number(string_num) == 10.0
 
 
 if __name__ == "__main__":

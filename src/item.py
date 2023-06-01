@@ -1,5 +1,6 @@
 import csv
 
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -49,6 +50,7 @@ class Item:
         Возвращает строковое представление экземпляра класса Item.
         """
         return f"Item('{self.__name}', {self.price}, {self.quantity})"
+
     def __str__(self) -> str:
         """
         Возвращает строковое представление экземпляра класса Item.
@@ -95,3 +97,12 @@ class Item:
         :return: Число.
         """
         return int(float(string))
+
+    def __add__(self, other):
+        if isinstance(other, self.__class__):
+            return self.quantity + other.quantity
+        elif isinstance(other, Phone):
+            return self.quantity + other.quantity
+        else:
+            return NotImplemented
+

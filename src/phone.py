@@ -12,9 +12,9 @@ class Phone(Item):
 
     @number_of_sim.setter
     def number_of_sim(self, value: int):
-        if value >= 0:
+        if value > 0:
             self._number_of_sim = value
-        elif self.number_of_sim <= 0:
+        else:
             raise ValueError("Недопустимое количество SIM-карт. Допустимые значения: 1 или 2.")
 
     def __add__(self, other):

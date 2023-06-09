@@ -1,6 +1,14 @@
 import csv
 
 
+class InstantiateCSVError(Exception):
+    """
+    Класс исключения, выбрасываемого при повреждении файла items.csv.
+    """
+    def __init__(self, message):
+        super().__init__(message)
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -79,15 +87,20 @@ class Item:
         Инициализирует экземпляры класса Item данными из файла src/items.csv.
         """
         cls.all = []  # Очистка списка перед добавлением данных
-        with open('C:/Users/Sergy007/PycharmProjects/electronics-shop-project/src/items.csv', 'r', encoding='utf-8') \
-                as file:
-            csv_reader = csv.DictReader(file)
-            for row in csv_reader:
-                name = row['name']
-                price = float(row['price'])
-                quantity = int(row['quantity'])
-                item = Item(name, price, quantity)
-                cls.all.append(item)
+        try:
+            with open('C:/Users/Sergy007/PycharmProjects/electronics-shop-project/src/items.csv', 'r',
+                      encoding='utf-8') as file:
+                csv_reader = csv.DictReader(file)
+                for row in csv_reader:
+                    if 'name' not in row or 'price' not in row or 'quantity' not in row:
+                        raise InstantiateCSVError("Файл item.csv поврежден")
+                    name = row['name']
+                    price = float(row['price'])
+                    quantity = int(row['quantity'])
+                    item = Item(name, price, quantity)
+                    cls.all.append(item)
+        except FileNotFoundError:
+            raise FileNotFoundError("Отсутствует файл item.csv")
 
     @staticmethod
     def string_to_number(string: str) -> float:

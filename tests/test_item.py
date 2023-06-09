@@ -1,4 +1,5 @@
 from src.item import Item
+from src.item import InstantiateCSVError
 import pytest
 
 
@@ -87,9 +88,13 @@ def test_clear_all():
 
 
 def test_instantiate_from_csv():
-    Item.instantiate_from_csv()
+    with pytest.raises(FileNotFoundError) as e:
+        Item.instantiate_from_csv()
+    assert str(e.value) == "Отсутствует файл item.csv"
 
-    assert len(Item.all) > 0
+    with pytest.raises(InstantiateCSVError) as e:
+        Item.instantiate_from_csv()
+    assert str(e.value) == "Файл item.csv поврежден"
 
 
 def test_string_to_number():
